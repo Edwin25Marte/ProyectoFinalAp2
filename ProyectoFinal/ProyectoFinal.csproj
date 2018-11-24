@@ -43,6 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -67,19 +73,135 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Bootstrap\css\bootstrap-grid.css" />
+    <Content Include="Bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="Bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="Bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="Bootstrap\css\bootstrap.css" />
+    <Content Include="Bootstrap\css\bootstrap.min.css" />
+    <Content Include="Bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Bootstrap\js\bootstrap.js" />
+    <Content Include="Bootstrap\js\bootstrap.min.js" />
+    <Content Include="Bootstrap\js\jquery-3.3.1.min.js" />
+    <Content Include="content\toastr.css" />
+    <Content Include="content\toastr.min.css" />
+    <Content Include="Images\bg.jpg" />
+    <Content Include="Images\bg2.jpg" />
+    <Content Include="Images\bgc.jpg" />
+    <Content Include="Images\bgv.png" />
+    <Content Include="Login.aspx" />
+    <Content Include="Scripts\FinalDb.sql" />
+    <Content Include="content\toastr.scss" />
+    <Content Include="content\toastr.less" />
+    <None Include="Properties\PublishProfiles\ProyectoFinalAP2 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ProyectoFinalAP2 - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-1.6.3-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.3.js" />
+    <Content Include="Scripts\jquery-1.6.3.min.js" />
+    <Content Include="Scripts\StyleSheet.css" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="UI\rActores.aspx" />
+    <Content Include="UI\rGeneros.aspx" />
+    <Content Include="UI\rPeliculas.aspx" />
+    <Content Include="UI\rClientes.aspx" />
+    <Content Include="UI\rFacturas.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="UI\rActores.aspx.cs">
+      <DependentUpon>rActores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\rActores.aspx.designer.cs">
+      <DependentUpon>rActores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\rGeneros.aspx.cs">
+      <DependentUpon>rGeneros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\rGeneros.aspx.designer.cs">
+      <DependentUpon>rGeneros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\rPeliculas.aspx.cs">
+      <DependentUpon>rPeliculas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\rPeliculas.aspx.designer.cs">
+      <DependentUpon>rPeliculas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\rClientes.aspx.cs">
+      <DependentUpon>rClientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\rClientes.aspx.designer.cs">
+      <DependentUpon>rClientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\rFacturas.aspx.cs">
+      <DependentUpon>rFacturas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\rFacturas.aspx.designer.cs">
+      <DependentUpon>rFacturas.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Bootstrap\css\.DS_Store" />
+    <Content Include="Bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="Bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="Bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="Bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Bootstrap\css\bootstrap.css.map" />
+    <Content Include="Bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Bootstrap\js\bootstrap.js.map" />
+    <Content Include="Bootstrap\js\bootstrap.min.js.map" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="UI\Site.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{23ac1a05-bd39-4210-8bfc-6a85f120b996}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{b8307f92-e4c6-4e47-9134-c3edcf526615}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
