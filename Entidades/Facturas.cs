@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entidades
 {
+    [Serializable]
     public class Facturas
     {
         [Key]

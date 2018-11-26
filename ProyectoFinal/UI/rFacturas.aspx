@@ -23,11 +23,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="username" class="cols-sm-2 control-label">Fecha</label>
+                    <label for="username" class="cols-sm-2 control-label">Fecha de factura</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                            <asp:TextBox ID="FechaTextBox" TextMode="Date" class="form-control" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="FechaTextBox" TextMode="Date" class="form-control" runat="server" ReadOnly="True"></asp:TextBox>
                         </div>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="FechaTextBox" ErrorMessage="Llene el campo Fecha"></asp:RequiredFieldValidator>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                            <asp:TextBox ID="FechaPrestamoTextBox" TextMode="Date" class="form-control" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="FechaPrestamoTextBox" TextMode="Date" class="form-control" runat="server" ReadOnly="True"></asp:TextBox>
                         </div>
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="FechaPrestamoTextBox" ErrorMessage="Llene el campo Fecha Prestamo"></asp:RequiredFieldValidator>
                     </div>
@@ -57,7 +57,6 @@
 
                 <div class="form-group">
                     <div class="cols-sm-10">
-
                         <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
                         <asp:DropDownList ID="ClientesDropDownList" class="form-control" runat="server">
                             <asp:ListItem Text="Clientes" Value="0" />
@@ -76,27 +75,25 @@
 
                 <div class="form-group">
                     <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                        <asp:GridView ID="DetalleGridView" AutoGenerateColumns="false" AllowPaging="true" DataKeyNames="FactDetalleId" class="table table-condensed table-bordered table-responsive"
+                            CellPadding="4" ForeColor="Black" GridLines="Horizontal" runat="server" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" EnablePersistedSelection="True" OnRowEditing="DetalleGridView_RowEditing" OnRowDeleting="DetalleGridView_RowDeleting" OnRowUpdating="DetalleGridView_RowUpdating" OnRowCancelingEdit="DetalleGridView_RowCancelingEdit">
+                            <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                            <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
+                            <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
+                            <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
+                            <SortedAscendingCellStyle BackColor="#F7F7F7" />
+                            <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
+                            <SortedDescendingCellStyle BackColor="#E5E5E5" />
+                            <SortedDescendingHeaderStyle BackColor="#242121" />
 
-                            <asp:GridView ID="DetalleGridView" AllowPaging="true" DataKeyNames="FactDetalleId,FacturaId" Width="501px" class="table table-condensed table-bordered table-responsive"
-                                CellPadding="4" ForeColor="Black" GridLines="Horizontal" runat="server" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" OnRowDataBound="DetalleGridView_RowDataBound">
-                                <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-                                <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
-                                <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
-                                <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-                                <SortedAscendingCellStyle BackColor="#F7F7F7" />
-                                <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
-                                <SortedDescendingCellStyle BackColor="#E5E5E5" />
-                                <SortedDescendingHeaderStyle BackColor="#242121" />
-                            </asp:GridView>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        <asp:Button ID="RemoveButton" CausesValidation="false" CssClass="btn btn-success" runat="server" Text="Remover fila" />
+                            <Columns>
+                                <asp:BoundField DataField="NombrePelicula" HeaderText="Nombre" ReadOnly="true" />
+                                <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
+                                <asp:BoundField DataField="Precio" HeaderText="Precio" ReadOnly="true" />
+                                <asp:CommandField ShowEditButton="true" />
+                                <asp:CommandField ShowDeleteButton="true" />
+                            </Columns>
+                        </asp:GridView>
                     </div>
                 </div>
 

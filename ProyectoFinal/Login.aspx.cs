@@ -24,7 +24,7 @@ namespace ProyectoFinal
             if (BLL.GetList(filtrar).Count() != 0)
                 FormsAuthentication.RedirectFromLoginPage(user.NombreUsuario, true);
             else
-                ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['warning']('Usuario o contraseña Incorrecto');", addScriptTags: true);
+                ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['error']('Usuario o contraseña Incorrecto');", addScriptTags: true);
         }
     }
 }

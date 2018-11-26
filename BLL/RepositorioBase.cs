@@ -50,7 +50,7 @@ namespace BLL
             bool paso = false;
             try
             {
-                _contexto.Entry(entity).State = EntityState.Modified;
+                _contexto.Entry(entity).State = EntityState.Modified;     
                 if (_contexto.SaveChanges() > 0)
                 {
                     paso = true;

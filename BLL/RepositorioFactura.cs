@@ -11,28 +11,59 @@ namespace BLL
         public RepositorioFactura() : base()
         { }
 
-        public override bool Modificar(Facturas Fact)
+        /*public override bool Modificar(Facturas Fact)
         {
             bool flag = false;
             _contexto = new DAL.Contexto();
-            try {
-                var FDDB = _contexto.DFacturas.Where(x => x.FacturaId == Fact.FacturaId).ToList();
-                //Elimina las cuotas de base de datos
-                foreach (var item in FDDB) {
-                    _contexto.DFacturas.Remove(item);
-                }
-                //Agrega la nueva lista
-                foreach (var item in Fact.DetalleFactura) {
-                    _contexto.Entry(item).State = EntityState.Added;
-                }
-
+            try
+            {
                 _contexto.Entry(Fact).State = EntityState.Modified;
+                foreach (DetalleFacturas detalle in Fact.DetalleFactura)
+                    _contexto.Entry(detalle).State = EntityState.Modified;
+
                 _contexto.SaveChanges();
                 flag = true;
             }
             catch (Exception)
             { throw; }
             return flag;
+        }*/
+
+        public override bool Modificar(Facturas Fact)
+        {
+            bool paso = false;
+            _contexto = new DAL.Contexto();
+            try
+            {
+                _contexto.Entry(Fact).State = EntityState.Modified;
+                foreach (DetalleFacturas detalle in Fact.DetalleFactura)
+                {
+                    var pelAnterior = _contexto.Facturas.Include(x => x.DetalleFactura.Select(z => z.Pelicula))
+                      .Where(s => s.FacturaId == Fact.FacturaId)
+                      .AsNoTracking()
+                      .FirstOrDefault();
+
+                    var pel = _contexto.Peliculas.Find(detalle.PeliculaId);
+
+                    if (detalle.FactDetalleId > 0)
+                    {
+                        foreach (var it in pelAnterior.DetalleFactura)
+                            it.Pelicula.Cantidad -= it.Cantidad;
+
+                        pel.Cantidad += detalle.Cantidad;
+
+                        _contexto.Entry(pel).State = EntityState.Modified;
+                        _contexto.Entry(detalle).State = EntityState.Modified;
+                    }
+                    else
+                        _contexto.Entry(detalle).State = EntityState.Added;
+                }
+                _contexto.SaveChanges();
+                paso = true;
+            }
+            catch (Exception)
+            { throw; }
+            return paso;
         }
     }
 }

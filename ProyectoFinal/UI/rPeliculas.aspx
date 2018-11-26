@@ -2,11 +2,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<div class="container">
+    <div class="container">
         <div class="row main">
             <div class="main-login main-center">
                 <br />
-                <h5>Registro de Clientes</h5>
+                <h5>Registro de Peliculas</h5>
                 <br />
                 <div class="form-group">
                     <label for="name" class="cols-sm-2 control-label">ID</label>
@@ -15,14 +15,14 @@
                             <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
                             <asp:TextBox ID="IdTextBox" TextMode="Number" min="0" Text="0" CssClass="form-control" runat="server"></asp:TextBox>
                             <div class="input-group-append">
-                                <asp:Button ID="BuscarButton" CssClass="btn btn-primary" runat="server" Text="Buscar" OnClick="BuscarButton_Click1" />
+                                <asp:Button ID="BuscarButton" CssClass="btn btn-primary" runat="server" Text="Buscar" OnClick="BuscarButton_Click" />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="email" class="cols-sm-2 control-label">Nombre</label>
+                    <label for="email" class="cols-sm-2 control-label">Nombre de la pelicula</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
@@ -44,13 +44,91 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Cantidad</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <asp:TextBox ID="CantidadTextBox" class="form-control" runat="server"></asp:TextBox>
+                        </div>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" TextMode="Number" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="CantidadTextBox" ErrorMessage="Llene el campo Cantidad"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="email" class="cols-sm-2 control-label">Precio</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
                             <asp:TextBox ID="PrecioTextBox" class="form-control" runat="server"></asp:TextBox>
                         </div>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="PrecioTextBox" ErrorMessage="Llene el campo Telefono"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="PrecioTextBox" ErrorMessage="Llene el campo Precio"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Genero</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <asp:DropDownList ID="GenerosDropDownList" class="form-control" runat="server">
+                                <asp:ListItem Value="Generos">Generos</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Actor</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <asp:DropDownList ID="ActorDropDownList" class="form-control" runat="server">
+                                <asp:ListItem Value="0">Actores</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Personaje que interpreta el actor</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <asp:TextBox ID="PersonajeTextBox" class="form-control" runat="server"></asp:TextBox>
+                        </div>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator8" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="PersonajeTextBox" ErrorMessage="Llene el campo Personaje"></asp:RequiredFieldValidator>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        <asp:Button ID="AddButton" CausesValidation="false" CssClass="btn btn-primary" runat="server" Text="Agregar" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+
+                            <asp:GridView ID="DetalleGridView" AllowPaging="true" DataKeyNames="FactDetalleId,FacturaId" Width="501px" class="table table-condensed table-bordered table-responsive"
+                                CellPadding="4" ForeColor="Black" GridLines="Horizontal" runat="server" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" AutoGenerateEditButton="True" EnablePersistedSelection="True">
+                                <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                                <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
+                                <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
+                                <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
+                                <SortedAscendingCellStyle BackColor="#F7F7F7" />
+                                <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
+                                <SortedDescendingCellStyle BackColor="#E5E5E5" />
+                                <SortedDescendingHeaderStyle BackColor="#242121" />
+                            </asp:GridView>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="cols-sm-10">
+                        <asp:Button ID="RemoveButton" CausesValidation="false" CssClass="btn btn-success" runat="server" Text="Remover fila" />
                     </div>
                 </div>
 
@@ -61,16 +139,16 @@
                             <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
                             <asp:TextBox ID="SinopsisTextBox" TextMode="MultiLine" Rows="4" class="form-control" runat="server"></asp:TextBox>
                         </div>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="SinopsisTextBox" ErrorMessage="Llene el campo E-Mail"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" ValidationGroup="Guardar" runat="server" CssClass="ErrorMessage" ControlToValidate="SinopsisTextBox" ErrorMessage="Llene el campo Sinopsis"></asp:RequiredFieldValidator>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="cols-sm-10">
                         <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                        <asp:Button ID="NuevoButton" CausesValidation="false" CssClass="btn btn-warning" runat="server" Text="Nuevo" OnClick="NuevoButton_Click1" />
-                        <asp:Button ID="GuardarButton" ValidationGroup="Guardar" CssClass="btn btn-success" runat="server" Text="Guardar" OnClick="GuardarButton_Click1"/>
-                        <asp:Button ID="EliminarButton" CssClass="btn btn-danger" runat="server" Text="Eliminar" OnClick="EliminarButton_Click1"/>
+                        <asp:Button ID="NuevoButton" CausesValidation="false" CssClass="btn btn-warning" runat="server" Text="Nuevo" OnClick="NuevoButton_Click" />
+                        <asp:Button ID="GuardarButton" ValidationGroup="Guardar" CssClass="btn btn-success" runat="server" Text="Guardar" OnClick="GuardarButton_Click" />
+                        <asp:Button ID="EliminarButton" CssClass="btn btn-danger" runat="server" Text="Eliminar" OnClick="EliminarButton_Click" />
                     </div>
                 </div>
             </div>

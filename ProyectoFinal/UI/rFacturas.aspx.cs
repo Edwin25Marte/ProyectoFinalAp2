@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,13 +16,16 @@ namespace ProyectoFinal.UI
         private RepositorioBase<Peliculas> pBLL = new RepositorioBase<Peliculas>();
         private RepositorioFactura factBLL = new RepositorioFactura();
 
-        private List<DetalleFacturas> Detalle = new List<DetalleFacturas>(); 
+        private List<DetalleFacturas> Detalle = new List<DetalleFacturas>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                FechaTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                FechaPrestamoTextBox.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 ViewState.Add("detalle", Detalle);
+                ViewState.Add("Factura", new Facturas());
                 Expression<Func<Clientes, bool>> fClientes = x => true;
                 Expression<Func<Peliculas, bool>> fPeliculas = x => true;
                 var itemCount = cBLL.GetList(fClientes).Count;
@@ -63,13 +65,13 @@ namespace ProyectoFinal.UI
             else
                 Entidad.FacturaId = Convert.ToInt32(IdTextBox.Text);
 
-            Entidad.Fecha = Convert.ToDateTime(FechaTextBox.Text);
-            Entidad.FechaPrestamo = Convert.ToDateTime(FechaPrestamoTextBox.Text);
+            Entidad.Fecha = DateTime.Now;
+            Entidad.FechaPrestamo = DateTime.Now;
             Entidad.FechaDevolucion = Convert.ToDateTime(FechaDevolucionTextBox.Text);
             Entidad.ClienteId = int.Parse(ClientesDropDownList.SelectedItem.Value);
             Entidad.Monto = Convert.ToDecimal(MontoTextBox.Text);
             Entidad.Observaciones = ObservacionesTextBox.Text;
-            Entidad.DetalleFactura = Detalle;
+            Entidad.DetalleFactura = Detalle.ToList();
 
             return Entidad;
         }
@@ -77,14 +79,18 @@ namespace ProyectoFinal.UI
         private void LlenarCampos(Facturas Entidad)
         {
             Facturas Buscar = BLL.Buscar(Entidad.ClienteId);
-                
+
             IdTextBox.Text = Entidad.FacturaId.ToString();
+            FechaTextBox.Text = string.Empty;
             FechaTextBox.Text = Entidad.Fecha.ToString("yyyy-MM-dd");
+            FechaPrestamoTextBox.Text = string.Empty;
             FechaPrestamoTextBox.Text = Entidad.FechaPrestamo.ToString("yyyy-MM-dd");
             FechaDevolucionTextBox.Text = Entidad.FechaDevolucion.ToString("yyyy-MM-dd");
             MontoTextBox.Text = Entidad.Monto.ToString();
+            //ClientesDropDownList.ClearSelection();
+            //ClientesDropDownList.Items.FindByValue(cBLL.Buscar(Buscar.ClienteId).Nombre).Selected = true;
             ObservacionesTextBox.Text = Entidad.Observaciones.ToString();
-            DetalleGridView.DataSource = Entidad.DetalleFactura;
+            DetalleGridView.DataSource = Entidad.DetalleFactura.ToList();
             DetalleGridView.DataBind();
         }
 
@@ -98,6 +104,10 @@ namespace ProyectoFinal.UI
             PeliculasDropDownList.DataTextField = string.Empty;
             MontoTextBox.Text = string.Empty;
             ObservacionesTextBox.Text = string.Empty;
+            ClientesDropDownList.ClearSelection();
+            ClientesDropDownList.Items.FindByValue("0").Selected = true;
+            PeliculasDropDownList.ClearSelection();
+            PeliculasDropDownList.Items.FindByValue("0").Selected = true;
             DetalleGridView.Visible = true;
             DetalleGridView.DataBind();
         }
@@ -131,42 +141,20 @@ namespace ProyectoFinal.UI
 
         protected void GuardarButton_Click1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(IdTextBox.Text))
+            if (string.IsNullOrWhiteSpace(IdTextBox.Text) || IdTextBox.Text == "0")
             {
-                BLL.Guardar(LlenarClase());
-                ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['success']('Factura Guardada.');", addScriptTags: true);
+                if (int.Parse(PeliculasDropDownList.SelectedItem.Value) > 0)
+                {
+                    BLL.Guardar(LlenarClase());
+                    ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['success']('Factura Guardada.');", addScriptTags: true);
+                }
+                else
+                    ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['warning']('Seleccione una pelicula valida.');", addScriptTags: true);
             }
             else
             {
-                /*var Ent = new DetalleFacturas();
-                List<DetalleFacturas> nDet = new List<DetalleFacturas>();
-                
-                for (int i = 0; i < DetalleGridView.Rows.Count; ++i)
-                {
-                    Ent.NombrePelicula = DetalleGridView.Rows[i].Cells[3].Text;
-                    Ent.FechaPrestamo = Convert.ToDateTime(DetalleGridView.Rows[i].Cells[4].Text);
-                    Ent.FechaDevolucion = Convert.ToDateTime(DetalleGridView.Rows[i].Cells[5].Text);
-                    Ent.Precio = Convert.ToDecimal(DetalleGridView.Rows[i].Cells[6].Text);
-
-                    nDet.Add(Ent);
-                }
-
-                var Entidad = new Facturas();
-
-                if (IdTextBox.Text == string.Empty)
-                    Entidad.FacturaId = 0;
-                else
-                    Entidad.FacturaId = Convert.ToInt32(IdTextBox.Text);
-
-                Entidad.Fecha = Convert.ToDateTime(FechaTextBox.Text);
-                Entidad.ClienteId = int.Parse(ClientesDropDownList.SelectedItem.Value);
-                Entidad.Monto = Convert.ToDecimal(MontoTextBox.Text);
-                Entidad.Observaciones = ObservacionesTextBox.Text;
-                Entidad.DetalleFactura = nDet;
-
-                factBLL.Modificar(Entidad);
-                BLL.Modificar(LlenarClase());
-                ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['success']('Factura Modificada.');", addScriptTags: true);*/
+                factBLL.Modificar(LlenarClase());
+                ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['success']('Factura Modificada.');", addScriptTags: true);
             }
             Limpiar();
         }
@@ -187,12 +175,9 @@ namespace ProyectoFinal.UI
 
         protected void AddButton_Click1(object sender, EventArgs e)
         {
-            DetalleFacturas dt = new DetalleFacturas();
+            var dt = new DetalleFacturas();
 
-            if (IdTextBox.Text == string.Empty)
-                dt.FactDetalleId = 0;
-            else
-                dt.FactDetalleId = Convert.ToInt32(IdTextBox.Text);
+            dt.FactDetalleId = 0;
 
             if (IdTextBox.Text == string.Empty)
                 dt.FacturaId = 0;
@@ -201,38 +186,49 @@ namespace ProyectoFinal.UI
 
             dt.PeliculaId = int.Parse(PeliculasDropDownList.SelectedItem.Value);
             Peliculas buscar = pBLL.Buscar(int.Parse(PeliculasDropDownList.SelectedItem.Value));
+            dt.Pelicula = pBLL.Buscar(int.Parse(PeliculasDropDownList.SelectedItem.Value));
             dt.NombrePelicula = buscar.Nombre;
             dt.Precio = buscar.Precio;
-
+            dt.Cantidad = buscar.Cantidad;
+          
             Detalle.Add(dt);
             ViewState["detalle"] = Detalle;
-            DetalleGridView.DataSource = Detalle;
+            DetalleGridView.DataSource = Detalle.ToList();
+            DetalleGridView.DataBind();
+
+        }
+
+        protected void DetalleGridView_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            DetalleGridView.EditIndex = e.NewEditIndex;
+            DetalleGridView.DataSource = (List<DetalleFacturas>)ViewState["detalle"];
             DetalleGridView.DataBind();
         }
 
-        protected void DetalleGridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void DetalleGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            /*e.Row.Cells[0].Visible = false;
-            e.Row.Cells[1].Visible = false;
-            e.Row.Cells[2].Visible = false;
+            GridViewRow row = DetalleGridView.Rows[e.RowIndex];
+        }
 
-            switch (e.Row.RowType)
-            {
-                case DataControlRowType.DataRow:
-                    e.Row.Attributes.Add("onmouseover", "this.style.backgroundColor='White'; this.style.color='Gray'; this.style.cursor='pointer'");
-                    if (e.Row.RowState == DataControlRowState.Alternate)
-                        e.Row.Attributes.Add("onmouseout", String.Format("this.style.color='Black';this.style.backgroundColor='{0}';", DetalleGridView.AlternatingRowStyle.BackColor.ToKnownColor()));
-                    else
-                        e.Row.Attributes.Add("onmouseout", String.Format("this.style.color='Black';this.style.backgroundColor='{0}';", DetalleGridView.RowStyle.BackColor.ToKnownColor()));
-                    
-                    e.Row.Attributes.Add("onclick", Page.ClientScript.GetPostBackEventReference(DetalleGridView, "Select$" + e.Row.RowIndex.ToString()));
-                    id = e.Row.RowIndex;
-                    break;
-            }
+        protected void DetalleGridView_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            //int userid = Convert.ToInt32(DetalleGridView.DataKeys[e.RowIndex].Value.ToString());
+            GridViewRow row = DetalleGridView.Rows[e.RowIndex];
+            Detalle = (List<DetalleFacturas>)ViewState["detalle"];
+            TextBox Cant = row.Cells[1].Controls[0] as TextBox;
+            Detalle[0].Cantidad = int.Parse(Cant.Text);
 
-            if (e.Row.RowType == DataControlRowType.DataRow) {
-                e.Row.ToolTip = "Click to select this row.";
-            }*/
+            ViewState["detalle"] = Detalle;
+            ViewState["Factura"] = LlenarClase();
+            DetalleGridView.DataSource = Detalle.ToList();
+            DetalleGridView.DataBind();
+        }
+
+        protected void DetalleGridView_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            DetalleGridView.EditIndex = -1;
+            DetalleGridView.DataSource = Detalle;
+            DetalleGridView.DataBind();
         }
     }
 }

@@ -1,32 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entidades
 {
+    [Serializable]
     public class DetallePeliculas
     {
         [Key]
 
-        public int DPId { get; set; }
-        public string NActor { get; set; }
-        public string NGenero { get; set; }
+        public int DetallePeliculaId { get; set; }
+        public string NombreActor { get; set; }
+        public string Personaje { get; set; }
 
         public DetallePeliculas()
         {
-            DPId = 0;
-            NActor = string.Empty;
-            NGenero = string.Empty;
+            DetallePeliculaId = 0;
+            NombreActor = string.Empty;
+            Personaje = string.Empty;
         }
 
-        public DetallePeliculas(int DPId, string NActor, string NGenero)
+        public DetallePeliculas(int DetallePeliculaId, string NombreActor, string Personaje)
         {
-            this.DPId = DPId;
-            this.NActor = NActor;
-            this.NGenero = NGenero;
+            this.DetallePeliculaId = DetallePeliculaId;
+            this.NombreActor = NombreActor;
+            this.Personaje = Personaje;
         }
     }
 }
