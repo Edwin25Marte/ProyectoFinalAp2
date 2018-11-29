@@ -88,7 +88,7 @@ input::-webkit-input-placeholder {
 .main-center {
     margin-top: 40px;
     margin: 0 auto;
-    max-width: 400px;
+    width: 58%;
     padding: 10px 40px;
     background: #ffffff;
     color: #000000;
@@ -110,4 +110,19 @@ span.input-group-addon i {
 .login-register {
     font-size: 11px;
     text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .main-center {
+        margin-top: 40px;
+        margin: 0 auto;
+        width: 400px;
+        padding: 10px 40px;
+        background: #ffffff;
+        color: #000000;
+        text-shadow: none;
+        -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+        -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+        box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+    }
 }

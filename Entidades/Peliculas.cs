@@ -17,7 +17,7 @@ namespace Entidades
         public decimal Precio { get; set; }
         public string Genero { get; set; }
         public string Personaje { get; set; }
-        public string Sipnosis { get; set; }
+        public string Sinopsis { get; set; }
 
         public virtual List<DetallePeliculas> DetallePels { get; set; }
 
@@ -31,11 +31,11 @@ namespace Entidades
             Precio = 0;
             Genero = string.Empty;
             Personaje = string.Empty;
-            Sipnosis = string.Empty;
+            Sinopsis = string.Empty;
             DetallePels = new List<DetallePeliculas>();
         }
 
-        public Peliculas(int PeliculaId, string Nombre, int ActorId, DateTime FechaSalida, int Cantidad, decimal Precio, string Genero, string Personaje, string Sipnosis, List<DetallePeliculas> DetallePels)
+        public Peliculas(int PeliculaId, string Nombre, int ActorId, DateTime FechaSalida, int Cantidad, decimal Precio, string Genero, string Personaje, string Sinopsis, List<DetallePeliculas> DetallePels)
         {
             this.PeliculaId = PeliculaId;
             this.ActorId = ActorId;
@@ -45,7 +45,7 @@ namespace Entidades
             this.Precio = Precio;
             this.Genero = Genero;
             this.Personaje = Personaje;
-            this.Sipnosis = Sipnosis;
+            this.Sinopsis = Sinopsis;
             this.DetallePels = DetallePels;
         }
     }

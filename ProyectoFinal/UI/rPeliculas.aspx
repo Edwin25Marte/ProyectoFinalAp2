@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/UI/Site.Master" AutoEventWireup="true" CodeBehind="rPeliculas.aspx.cs" Inherits="ProyectoFinal.UI.WebForm3" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -100,37 +101,58 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        <asp:Button ID="AddButton" CausesValidation="false" CssClass="btn btn-primary" runat="server" Text="Agregar" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-
-                            <asp:GridView ID="DetalleGridView" AllowPaging="true" DataKeyNames="FactDetalleId,FacturaId" Width="501px" class="table table-condensed table-bordered table-responsive"
-                                CellPadding="4" ForeColor="Black" GridLines="Horizontal" runat="server" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" AutoGenerateEditButton="True" EnablePersistedSelection="True">
-                                <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-                                <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
-                                <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
-                                <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-                                <SortedAscendingCellStyle BackColor="#F7F7F7" />
-                                <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
-                                <SortedDescendingCellStyle BackColor="#E5E5E5" />
-                                <SortedDescendingHeaderStyle BackColor="#242121" />
-                            </asp:GridView>
+                <asp:ScriptManager ID="ScriptManager1" runat="server">
+                </asp:ScriptManager>
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                    <ContentTemplate>
+                        <div class="form-group">
+                            <div class="cols-sm-10">
+                                <asp:Button ID="AddButton" CausesValidation="false" CssClass="btn btn-primary" runat="server" Text="Agregar" OnClick="AddButton_Click" />
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
 
-                <div class="form-group">
-                    <div class="cols-sm-10">
-                        <asp:Button ID="RemoveButton" CausesValidation="false" CssClass="btn btn-success" runat="server" Text="Remover fila" />
-                    </div>
-                </div>
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>
+                        <div class="form-group">
+                            <div class="cols-sm-10">
+                                <asp:GridView ID="DetalleGridView" AutoGenerateColumns="false" AllowPaging="true" DataKeyNames="DetallePeliculaId" class="table table-condensed table-bordered table-responsive"
+                                    CellPadding="4" ForeColor="Black" GridLines="Horizontal" runat="server" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" EnablePersistedSelection="True" OnRowCancelingEdit="DetalleGridView_RowCancelingEdit" OnRowDeleting="DetalleGridView_RowDeleting" OnRowEditing="DetalleGridView_RowEditing" OnRowUpdating="DetalleGridView_RowUpdating">
+                                    <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
+                                    <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
+                                    <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
+                                    <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
+                                    <SortedAscendingCellStyle BackColor="#F7F7F7" />
+                                    <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
+                                    <SortedDescendingCellStyle BackColor="#E5E5E5" />
+                                    <SortedDescendingHeaderStyle BackColor="#242121" />
+                                    <Columns>
+                                        <asp:TemplateField>
+                                            <ItemTemplate>
+                                                <asp:Button ID="btn_Edit" runat="server" Text="Edit" CommandName="Edit" CssClass="btn btn-warning" />
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:Button ID="btn_Update" runat="server" Text="U" CommandName="Update" CssClass="btn btn-primary" />
+                                                <br />
+                                                <asp:Button ID="btn_Cancel" runat="server" Text="C" CommandName="Cancel" CssClass="btn btn-danger" />
+                                            </EditItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:BoundField DataField="NombreActor" HeaderText="Nombre Actor" ReadOnly="true" />
+                                        <asp:BoundField DataField="Personaje" HeaderText="Personaje" />
+
+                                        <asp:TemplateField>
+                                            <ItemTemplate>
+                                                <asp:Button ID="btn_Delete" runat="server" Text="Delete" CommandName="Delete" CssClass="btn btn-danger" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
 
                 <div class="form-group">
                     <label for="email" class="cols-sm-2 control-label">Sinopsis</label>

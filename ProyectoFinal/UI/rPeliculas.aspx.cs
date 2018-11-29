@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,9 +12,11 @@ namespace ProyectoFinal.UI
     public partial class WebForm3 : System.Web.UI.Page
     {
         private RepositorioBase<Peliculas> BLL = new RepositorioBase<Peliculas>();
+        private RepositorioPeliculas pelBLL = new RepositorioPeliculas();
         private RepositorioBase<Actores> actBLL = new RepositorioBase<Actores>();
         private RepositorioBase<Generos> genBLL = new RepositorioBase<Generos>();
-        private List<DetallePeliculas> Detalle = new List<DetallePeliculas>();
+
+        List<DetallePeliculas> Detalle = new List<DetallePeliculas>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -66,7 +69,7 @@ namespace ProyectoFinal.UI
             Entidad.Precio = Convert.ToDecimal(PrecioTextBox.Text);
             Entidad.Genero = GenerosDropDownList.SelectedItem.Value;
             Entidad.Personaje = PersonajeTextBox.Text;
-            Entidad.Sipnosis = SinopsisTextBox.Text;
+            Entidad.Sinopsis = SinopsisTextBox.Text;
             Entidad.DetallePels = Detalle;
 
             return Entidad;
@@ -82,7 +85,8 @@ namespace ProyectoFinal.UI
             GenerosDropDownList.ClearSelection();
             GenerosDropDownList.Items.FindByValue(Entidad.Genero).Selected = true;
             PersonajeTextBox.Text = Entidad.Personaje;
-            SinopsisTextBox.Text = Entidad.Sipnosis.ToString();
+            SinopsisTextBox.Text = Entidad.Sinopsis.ToString();
+            ViewState["detalle"] = Entidad.DetallePels;
             DetalleGridView.DataSource = Entidad.DetallePels;
             DetalleGridView.DataBind();
         }
@@ -143,7 +147,7 @@ namespace ProyectoFinal.UI
                             ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['error']('El ID debe ser 0 para guardar.');", addScriptTags: true);
                         else
                         {
-                            BLL.Modificar(LlenarClase());
+                            pelBLL.Modificar(LlenarClase());
                             ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['success']('Película Modificada.');", addScriptTags: true);
                         }
                     }
@@ -164,6 +168,95 @@ namespace ProyectoFinal.UI
             else
                 ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['error']('Película no eliminada.');", addScriptTags: true);
             Limpiar();
+        }
+
+        protected void AddButton_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(PersonajeTextBox.Text) && int.Parse(ActorDropDownList.SelectedItem.Value) > 0) {
+                bool paso = false;
+                var dt = new DetallePeliculas();
+
+                dt.DetallePeliculaId = 0;
+
+                if (IdTextBox.Text == string.Empty)
+                    dt.PeliculaId = 0;
+                else
+                    dt.PeliculaId = Convert.ToInt32(IdTextBox.Text);
+
+                Actores buscar = actBLL.Buscar(int.Parse(ActorDropDownList.SelectedItem.Value));
+                dt.NombreActor = buscar.Nombre;
+                dt.Personaje = PersonajeTextBox.Text;
+
+                foreach (GridViewRow grid in DetalleGridView.Rows) {
+                    if (grid.Cells[1].Text == dt.NombreActor) {
+                        paso = true;
+                        break;
+                    }
+                }
+                if (paso == false)
+                    Detalle.Add(dt);
+                else
+                    ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['warning']('El Actor ya existe en el detalle.');", addScriptTags: true);
+
+                ViewState["detalle"] = Detalle;
+                DetalleGridView.DataSource = Detalle.ToList();
+                DetalleGridView.DataBind();
+            }
+        }
+
+        protected void DetalleGridView_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            DetalleGridView.EditIndex = e.NewEditIndex;
+            DetalleGridView.DataSource = (List<DetallePeliculas>)ViewState["detalle"];
+            DetalleGridView.DataBind();
+        }
+
+        protected void DetalleGridView_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            GridViewRow row = DetalleGridView.Rows[e.RowIndex];
+            Detalle = (List<DetallePeliculas>)ViewState["detalle"];
+            TextBox Per = row.Cells[2].Controls[0] as TextBox;
+            Detalle[e.RowIndex].Personaje = Per.Text;
+
+            ViewState["detalle"] = Detalle;
+            ViewState["Factura"] = LlenarClase();
+            DetalleGridView.DataSource = Detalle.ToList();
+            DetalleGridView.DataBind();
+        }
+
+        protected void DetalleGridView_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            DetalleGridView.EditIndex = -1;
+            DetalleGridView.DataSource = Detalle;
+            DetalleGridView.DataBind();
+        }
+
+        protected void DetalleGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            GridViewRow row = DetalleGridView.Rows[e.RowIndex];
+            int ID = Convert.ToInt32(DetalleGridView.DataKeys[e.RowIndex].Value.ToString());
+
+            if (pelBLL.DeleteP(ID))
+                ScriptManager.RegisterStartupScript(this, typeof(Page), "toastr_message", script: "toastr['success']('Se ha eliminado del detalle.');", addScriptTags: true);
+        }
+
+
+        private void RegisterPostBackControl()
+        {
+            foreach (GridViewRow row in DetalleGridView.Rows)
+            {
+                LinkButton btn_Edit = row.FindControl("btn_Edit") as LinkButton;
+                ScriptManager.GetCurrent(this).RegisterPostBackControl(btn_Edit);
+            }
+        }
+
+        private void RegisterPostBackControlADD()
+        {
+            foreach (GridViewRow row in DetalleGridView.Rows)
+            {
+                LinkButton AddButton = row.FindControl("AddButton") as LinkButton;
+                ScriptManager.GetCurrent(this).RegisterPostBackControl(AddButton);
+            }
         }
     }
 }

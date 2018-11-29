@@ -12,6 +12,7 @@
     <link href="content/toastr.css" rel="stylesheet" />
     <script src="Scripts/toastr.js"></script>
     <link href="Scripts/StyleSheet.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="Images/favicon.ico" sizes="16x16" />
 
 </head>
 <body>

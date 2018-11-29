@@ -13,6 +13,7 @@
     <link href="../content/toastr.css" rel="stylesheet" />
     <script src="../Scripts/toastr.js"></script>
     <link href="../Scripts/StyleSheet.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="../Images/favicon.ico" sizes="16x16" />
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -22,7 +23,9 @@
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-                <a class="navbar-brand" href="#">ALQUILER</a>
+                <a class="navbar-brand" href="#">
+                <asp:Image ID="Image1" runat="server" Height="41px" ImageUrl="~/Images/popcorns_348003.png" Width="40px" />
+&nbsp;ALQUILER</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -44,9 +47,11 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuCons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Consultas
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="cCuentas.aspx">Cuentas Bancarias</a>
-                                <a class="dropdown-item" href="cDepositos.aspx">Depositos</a>
-                                <a class="dropdown-item" href="cPrestamo.aspx">Prestamos</a>
+                                <a class="dropdown-item" href="cActores.aspx">Actores</a>
+                                <a class="dropdown-item" href="cGeneros.aspx">Generos</a>
+                                <a class="dropdown-item" href="cClientes.aspx">Clientes</a>
+                                <a class="dropdown-item" href="cPeliculas.aspx">Peliculas</a>
+                                <a class="dropdown-item" href="cFacturas.aspx">Facturas</a>
                             </div>
                         </li>
 

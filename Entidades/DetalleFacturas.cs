@@ -8,13 +8,14 @@ namespace Entidades
     public class DetalleFacturas
     {
         [Key]
-        
+
         public int FactDetalleId { get; set; }
         public int FacturaId { get; set; }
         public int PeliculaId { get; set; }
         public string NombrePelicula { get; set; }
         public int Cantidad { get; set; }
         public decimal Precio { get; set; }
+        public decimal Importe { get; set; }
 
         public virtual Peliculas Pelicula { get; set; }
 
@@ -26,9 +27,10 @@ namespace Entidades
             NombrePelicula = string.Empty;
             Cantidad = 0;
             Precio = 0;
+            Importe = 0;
         }
 
-        public DetalleFacturas(int FactDetalleId, int FacturaId, int PeliculaId, string NombrePelicula, int Cantidad, decimal Precio)
+        public DetalleFacturas(int FactDetalleId, int FacturaId, int PeliculaId, string NombrePelicula, int Cantidad, decimal Precio, decimal Importe)
         {
             this.FactDetalleId = FactDetalleId;
             this.FacturaId = FacturaId;
@@ -36,6 +38,7 @@ namespace Entidades
             this.NombrePelicula = NombrePelicula;
             this.Cantidad = Cantidad;
             this.Precio = Precio;
+            this.Importe = Importe;
         }
     }
 }

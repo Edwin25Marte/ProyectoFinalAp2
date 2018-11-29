@@ -90,6 +90,8 @@
     <Content Include="Images\bg2.jpg" />
     <Content Include="Images\bgc.jpg" />
     <Content Include="Images\bgv.png" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\popcorns_348003.png" />
     <Content Include="Login.aspx" />
     <Content Include="Scripts\FinalDb.sql" />
     <Content Include="content\toastr.scss" />
@@ -107,6 +109,11 @@
     <Content Include="UI\rPeliculas.aspx" />
     <Content Include="UI\rClientes.aspx" />
     <Content Include="UI\rFacturas.aspx" />
+    <Content Include="UI\cActores.aspx" />
+    <Content Include="UI\cGeneros.aspx" />
+    <Content Include="UI\cClientes.aspx" />
+    <Content Include="UI\cPeliculas.aspx" />
+    <Content Include="UI\cFacturas.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -166,6 +173,41 @@
     </Compile>
     <Compile Include="UI\rFacturas.aspx.designer.cs">
       <DependentUpon>rFacturas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\cActores.aspx.cs">
+      <DependentUpon>cActores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\cActores.aspx.designer.cs">
+      <DependentUpon>cActores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\cGeneros.aspx.cs">
+      <DependentUpon>cGeneros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\cGeneros.aspx.designer.cs">
+      <DependentUpon>cGeneros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\cClientes.aspx.cs">
+      <DependentUpon>cClientes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\cClientes.aspx.designer.cs">
+      <DependentUpon>cClientes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\cPeliculas.aspx.cs">
+      <DependentUpon>cPeliculas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\cPeliculas.aspx.designer.cs">
+      <DependentUpon>cPeliculas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UI\cFacturas.aspx.cs">
+      <DependentUpon>cFacturas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\cFacturas.aspx.designer.cs">
+      <DependentUpon>cFacturas.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
